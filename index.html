@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anugrah Chettinavida — Geochemistry & Paleoclimate</title>
+<style>
+:root {
+  --site-primary: #174f46;
+  --site-secondary: #e8e9dc;
+  --site-background: #f7f6f0;
+  --site-on-primary: #ffffff;
+  --site-on-secondary: #203c35;
+  --site-on-background: #202b28;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Georgia, "Times New Roman", serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --surface: light-dark(#ffffff, #202a27);
+  --muted: light-dark(#5e6d66, #bdc8c1);
+  --line: light-dark(#dfe4dc, #3d4944);
+  --accent: #b8d77a;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; color-scheme: light dark; }
+body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); line-height: 1.6; }
+#app { background-color: var(--site-background); color: var(--site-on-background); min-height: 100vh; border-radius: 0; overflow: hidden; }
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; }
+.container { width: min(1120px, calc(100% - 48px)); margin: 0 auto; }
+.nav { display:flex; align-items:center; justify-content:space-between; padding: 22px 0; border-bottom: 1px solid var(--line); }
+.brand { display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:-.03em; }
+.brand-mark { width:38px; height:38px; display:grid; place-items:center; background:var(--site-primary); color:var(--site-on-primary); border-radius:50%; font-family:var(--site-font-heading); font-size:20px; }
+.navlinks { display:flex; gap:26px; align-items:center; color:var(--muted); font-size:14px; }
+.navlinks a:hover, .text-link:hover { color:var(--site-primary); }
+.menu-toggle { display:none; background:transparent; color:inherit; border:1px solid var(--line); border-radius:calc(10px * var(--site-radius-scale)); padding:8px 12px; }
+.hero { padding: clamp(64px, 10vw, 124px) 0 84px; display:grid; grid-template-columns: 1.3fr .7fr; gap:64px; align-items:center; }
+.eyebrow { color:var(--site-primary); font-size:12px; letter-spacing:.16em; text-transform:uppercase; font-weight:800; display:flex; align-items:center; gap:10px; }
+.eyebrow:before { content:""; width:26px; height:2px; background:currentColor; }
+h1,h2,h3 { font-family:var(--site-font-heading); font-weight:500; letter-spacing:-.045em; line-height:1.08; }
+h1 { font-size:clamp(46px, 6.7vw, 84px); margin:22px 0; max-width:760px; }
+h1 em { color:var(--site-primary); font-weight:400; }
+.hero-copy { color:var(--muted); font-size:18px; max-width:640px; }
+.actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:30px; }
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:9px; border-radius:999px; padding:13px 19px; font-size:14px; font-weight:700; border:1px solid var(--site-primary); cursor:pointer; transition:transform .2s, background .2s; }
+.btn:hover { transform:translateY(-2px); }
+.btn.primary { background:var(--site-primary); color:var(--site-on-primary); }
+.btn.secondary { color:var(--site-primary); background:transparent; }
+.visual { min-height:390px; position:relative; display:flex; align-items:center; justify-content:center; }
+.orbit { position:absolute; width:310px; height:310px; border:1px solid color-mix(in srgb, var(--site-primary) 32%, transparent); border-radius:50%; opacity:var(--site-decoration-opacity); }
+.orbit:before,.orbit:after { content:""; position:absolute; border:1px solid color-mix(in srgb, var(--site-primary) 24%, transparent); border-radius:50%; inset:28px; }
+.orbit:after { inset:58px; }
+.core-card { z-index:1; width:min(290px, 90%); aspect-ratio: .82; border-radius:calc(145px 145px 18px 18px * var(--site-radius-scale)); background:var(--site-primary); color:white; padding:30px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 25px 70px #163d3028; position:relative; overflow:hidden; }
+.core-card:before { content:""; position:absolute; width:250px; height:250px; border:1px solid #ffffff38; border-radius:50%; right:-110px; top:60px; box-shadow:0 0 0 24px #ffffff0d,0 0 0 50px #ffffff0d,0 0 0 76px #ffffff0d; }
+.core-label { font-size:11px; letter-spacing:.16em; text-transform:uppercase; opacity:.8; }
+.core-symbol { font-family:var(--site-font-heading); font-size:112px; line-height:1; z-index:1; }
+.core-caption { z-index:1; font-size:13px; max-width:180px; color:#e3eee5; }
+.section { padding:82px 0; border-top:1px solid var(--line); }
+.section-head { display:flex; align-items:end; justify-content:space-between; gap:28px; margin-bottom:36px; }
+.section-head h2 { font-size:clamp(36px, 4.5vw, 56px); margin:12px 0 0; }
+.section-head p { color:var(--muted); max-width:400px; margin:0; }
+.about-grid { display:grid; grid-template-columns:.8fr 1.2fr; gap:64px; }
+.about-note { background:var(--site-secondary); color:var(--site-on-secondary); padding:30px; border-radius:calc(18px * var(--site-radius-scale)); }
+.about-note .big { font-family:var(--site-font-heading); font-size:32px; line-height:1.15; margin:12px 0 20px; }
+.about-note p { font-size:14px; opacity:.82; }
+.about-text p { color:var(--muted); margin-top:0; font-size:17px; }
+.tags { display:flex; flex-wrap:wrap; gap:9px; margin-top:24px; }
+.tag { border:1px solid var(--line); border-radius:999px; padding:8px 12px; font-size:12px; color:var(--muted); }
+.projects { display:grid; grid-template-columns:repeat(2, 1fr); gap:18px; }
+.project { background:var(--surface); border:1px solid var(--line); border-radius:calc(18px * var(--site-radius-scale)); padding:28px; min-height:270px; display:flex; flex-direction:column; transition:transform .2s, border-color .2s; }
+.project:hover { transform:translateY(-4px); border-color:var(--site-primary); }
+.project-top { display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:12px; }
+.project-icon { width:42px; height:42px; border-radius:50%; display:grid; place-items:center; background:var(--site-secondary); color:var(--site-on-secondary); font-size:19px; }
+.project h3 { font-size:27px; margin:24px 0 12px; }
+.project p { color:var(--muted); margin:0 0 22px; font-size:14px; }
+.project .keywords { margin-top:auto; color:var(--site-primary); font-size:12px; font-weight:700; }
+.timeline { border-left:1px solid var(--line); margin-left:8px; }
+.timeline-item { position:relative; padding:0 0 34px 30px; display:grid; grid-template-columns:180px 1fr; gap:28px; }
+.timeline-item:before { content:""; width:11px; height:11px; background:var(--site-primary); border:3px solid var(--site-background); border-radius:50%; position:absolute; left:-7px; top:6px; box-shadow:0 0 0 1px var(--site-primary); }
+.timeline-date { color:var(--muted); font-size:13px; padding-top:4px; }
+.timeline-item h3 { font-size:24px; margin:0 0 8px; }
+.timeline-item p { margin:0; color:var(--muted); font-size:14px; }
+.skills-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.skill { padding:22px; border-top:2px solid var(--site-primary); background:var(--surface); border-radius:0 0 calc(12px * var(--site-radius-scale)) calc(12px * var(--site-radius-scale)); }
+.skill h3 { font-size:21px; margin:0 0 10px; }
+.skill p { color:var(--muted); font-size:13px; margin:0; }
+.contact { background:var(--site-primary); color:var(--site-on-primary); padding:64px 0; }
+.contact-inner { display:flex; justify-content:space-between; align-items:center; gap:36px; }
+.contact h2 { font-size:clamp(36px, 5vw, 60px); margin:12px 0; max-width:650px; }
+.contact p { color:#d5e5dd; max-width:500px; }
+.contact .eyebrow { color:var(--accent); }
+.contact .btn { background:var(--site-secondary); color:var(--site-on-secondary); border-color:var(--site-secondary); white-space:nowrap; }
+footer { padding:24px 0; color:var(--muted); font-size:12px; }
+.footer-inner { display:flex; justify-content:space-between; gap:20px; }
+.small-note { font-size:11px; opacity:.8; }
+@media (max-width: 760px) {
+ .container { width:min(100% - 34px, 600px); }
+ .navlinks { display:none; position:absolute; top:76px; left:0; right:0; padding:18px 24px; background:var(--surface); border-bottom:1px solid var(--line); flex-direction:column; align-items:flex-start; z-index:5; }
+ .navlinks.open { display:flex; }
+ .menu-toggle { display:block; }
+ .hero { grid-template-columns:1fr; gap:18px; padding-top:60px; }
+ .visual { min-height:330px; }
+ .orbit { width:270px; height:270px; }
+ .core-card { width:240px; }
+ .core-symbol { font-size:90px; }
+ .about-grid { grid-template-columns:1fr; gap:24px; }
+ .section { padding:60px 0; }
+ .section-head { display:block; }
+ .section-head p { margin-top:14px; }
+ .projects { grid-template-columns:1fr; }
+ .timeline-item { grid-template-columns:1fr; gap:6px; }
+ .skills-grid { grid-template-columns:1fr; }
+ .contact-inner { align-items:flex-start; flex-direction:column; }
+ .footer-inner { flex-direction:column; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } *, *::before, *::after { transition:none !important; } }
+</style>
+</head>
+<body>
+<div id="app" data-sites-preview-theme="custom">
+  <header class="container">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="#home" aria-label="Anugrah home"><span class="brand-mark">A.</span><span>Anugrah Chettinavida</span></a>
+      <div class="navlinks" id="navlinks">
+        <a href="#about">About</a><a href="#research">Research</a><a href="#journey">Journey</a><a href="#phd-abroad">PhD abroad</a><a href="#skills">Expertise</a><a href="#contact">Contact</a>
+      </div>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="navlinks">Menu</button>
+    </nav>
+  </header>
+  <main>
+    <section class="container hero" id="home">
+      <div>
+        <div class="eyebrow">Researcher in Europe · Connecting across borders</div>
+        <h1>Building a research life abroad, <em>one question at a time.</em></h1>
+        <p class="hero-copy">I’m Anugrah, an Earth and environmental researcher from India now pursuing a PhD in Poland. This site brings together my research profile and practical lessons from the international PhD journey—for students from any university or background considering research in Europe, the United States, or elsewhere.</p>
+        <div class="actions"><a class="btn primary" href="#research">Explore my research <span aria-hidden="true">↗</span></a><a class="btn secondary" href="#phd-abroad">PhD abroad guide <span aria-hidden="true">→</span></a></div>
+      </div>
+      <div class="visual" aria-label="Abstract illustration inspired by layered sediment cores">
+        <div class="orbit"></div>
+        <div class="core-card"><div class="core-label">Earth archives / 01</div><div class="core-symbol">≈</div><div class="core-caption">Sediments preserve stories of climate, ecosystems and human impact.</div></div>
+      </div>
+    </section>
+    <section class="section" id="about">
+      <div class="container about-grid">
+        <div class="about-note"><div class="eyebrow">My research story</div><div class="big">A chemistry background. An Earth-systems perspective.</div><p>I want to understand how chemical and biological signals preserved in natural archives can answer questions about past environments and future change.</p></div>
+        <div class="about-text"><div class="eyebrow">For prospective collaborators</div><h2 style="font-size:clamp(32px,4vw,48px);margin:14px 0 22px">A cross-disciplinary researcher building bridges between chemistry and Earth science.</h2><p>I completed an integrated BS–MS in Chemical Sciences at IISER Mohali, India, with a minor in Earth Sciences. My training has taken me from Himalayan lake sediments to marine geochemistry and Arctic fjord samples, giving me experience across field-oriented questions, laboratory analysis and environmental interpretation.</p><p>I’m currently pursuing a PhD at the University of Gdańsk, Poland, investigating Holocene environmental change using varved sediments from Lake Synevyr in the Eastern Carpathians. I’m keen to connect with researchers, laboratories and fellow scholars interested in paleoclimate, sediment geochemistry, environmental proxies and interdisciplinary Earth science.</p><div class="tags"><span class="tag">Lake sediments</span><span class="tag">Organic biomarkers</span><span class="tag">Paleoclimate</span><span class="tag">Marine geochemistry</span><span class="tag">Environmental change</span><span class="tag">India → international research</span></div></div>
+      </div>
+    </section>
+    <section class="section" id="research">
+      <div class="container">
+        <div class="section-head"><div><div class="eyebrow">Research experience</div><h2>Questions in the sediments.</h2></div><p>My profile combines analytical chemistry, environmental archives and geochemical interpretation—experience relevant to interdisciplinary PhD projects.</p></div>
+        <div class="projects">
+          <article class="project"><div class="project-top"><span>01 / PhD research</span><span class="project-icon">⌁</span></div><h3>Holocene environmental change in the Eastern Carpathians</h3><p>Multi-proxy reconstruction using varved sediments from Lake Synevyr to investigate climate variability, catchment processes, productivity and human influence.</p><div class="keywords">Varves · μXRF · Hyperspectral imaging · Paleoecology</div></article>
+          <article class="project"><div class="project-top"><span>02 / Master’s thesis</span><span class="project-icon">◌</span></div><h3>Organic matter sources in a Himalayan freshwater lake</h3><p>Investigated natural and anthropogenic organic matter inputs to Mansar Lake using leaf-wax n-alkanes, microplastics and associated chemical indicators.</p><div class="keywords">Biomarkers · Raman · ICP-MS · Lake sediments</div></article>
+          <article class="project"><div class="project-top"><span>03 / Marine geochemistry</span><span class="project-icon">≈</span></div><h3>Geochemical signals from the deep ocean</h3><p>Experience with porewater chloride, hydrate-bearing sediments, pyrite and molecular indicators related to methane cycling in marine environments.</p><div class="keywords">Gas hydrates · Porewater · AOM · Cruise science</div></article>
+          <article class="project"><div class="project-top"><span>04 / Molecular proxies</span><span class="project-icon">✳</span></div><h3>Organic molecules as environmental tracers</h3><p>Exploring how n-alkane distributions and related molecular indicators can help interpret vegetation, organic matter sources and environmental conditions.</p><div class="keywords">GC–MS · Leaf waxes · PAHs · Source interpretation</div></article>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="journey">
+      <div class="container">
+        <div class="section-head"><div><div class="eyebrow">Academic journey</div><h2>From India to international research.</h2></div><p>Research and training across Indian institutions and international scientific settings have shaped my approach to environmental science.</p></div>
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-date">Current · PhD</div><div><h3>University of Gdańsk, Poland</h3><p>Doctoral research on Holocene environmental change using multi-proxy analysis of varved Lake Synevyr sediments.</p></div></div>
+          <div class="timeline-item"><div class="timeline-date">2024–2025 · Research</div><div><h3>National Institute of Oceanography, Goa</h3><p>Project Associate-I in gas hydrate geochemistry, with experience in marine sediment and porewater analyses and research-cruise operations.</p></div></div>
+          <div class="timeline-item"><div class="timeline-date">2024 · Training</div><div><h3>University of Bayreuth — Stable Isotope Summer School</h3><p>Training and workshop exposure in stable-isotope methods, including spatial δ¹³C analysis.</p></div></div>
+          <div class="timeline-item"><div class="timeline-date">2024 · Master’s degree</div><div><h3>IISER Mohali, India</h3><p>BS–MS in Chemical Sciences, with a minor in Earth Sciences and thesis research on organic matter sources in Mansar Lake.</p></div></div>
+          <div class="timeline-item"><div class="timeline-date">2021 · Internship</div><div><h3>National Centre for Polar and Ocean Research</h3><p>Worked with Arctic fjord samples and carbohydrate analyses in a cryobiology research setting.</p></div></div>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-head"><div><div class="eyebrow">Research toolkit</div><h2>Methods I bring to a research group.</h2></div><p>Hands-on laboratory and sample-processing experience, alongside developing data-analysis skills and an interest in learning new proxy methods.</p></div>
+        <div class="skills-grid">
+          <div class="skill"><h3>Organic geochemistry</h3><p>GC–MS, n-alkane biomarkers, PAHs, organic matter source indicators and sample extraction.</p></div>
+          <div class="skill"><h3>Elemental & particle analysis</h3><p>ICP-MS, Raman spectroscopy, particle-size analysis and microplastics characterization.</p></div>
+          <div class="skill"><h3>Marine & sediment science</h3><p>Porewater chemistry, gas hydrate samples, sediment cores and research-cruise laboratory work.</p></div>
+          <div class="skill"><h3>Multi-proxy reconstruction</h3><p>Interest in μXRF core scanning, hyperspectral imaging, varve chronology and paleoenvironmental indicators.</p></div>
+          <div class="skill"><h3>Data & interpretation</h3><p>Developing skills in R, Python and reproducible workflows for exploratory geochemical data analysis.</p></div>
+          <div class="skill"><h3>Field & lab practice</h3><p>Sample processing, laboratory coordination, method optimization and cross-disciplinary collaboration.</p></div>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="phd-abroad">
+      <div class="container">
+        <div class="section-head"><div><div class="eyebrow">PhD abroad · A field guide</div><h2>PhD Abroad: What I’ve Learned.</h2></div><p>Thinking about a PhD abroad? You’re welcome here. These practical notes share what I’m learning along the way, for anyone exploring doctoral research internationally—whatever your college, degree, discipline or starting point.</p></div>
+        <div class="projects">
+          <article class="project"><div class="project-top"><span>01 / Finding opportunities</span><span class="project-icon">⌕</span></div><h3>Explore funded PhD positions</h3><p>You can start by exploring research-group pages, doctoral-school vacancies, funded project listings and researcher networks. As you find interesting opportunities, compare the project, funding, eligibility and deadlines to see what feels right for you.</p><div class="keywords">Project fit · Funding · Eligibility</div></article>
+          <article class="project"><div class="project-top"><span>02 / Contacting supervisors</span><span class="project-icon">✉</span></div><h3>Introduce yourself to a supervisor</h3><p>A first email doesn’t need to be perfect. Share a little about your interests, mention what draws you to their work, and explain how your experience might connect. A focused CV and a short, personal message are a great place to begin.</p><div class="keywords">Personal · Clear · Research-led</div></article>
+          <article class="project"><div class="project-top"><span>03 / Application materials</span><span class="project-icon">▤</span></div><h3>Tell your research story in your CV</h3><p>Your CV is a chance to show how you’ve grown as a researcher. Include your education, thesis, projects, methods, field or laboratory skills, presentations and publications where relevant. It’s absolutely fine to be honest about what you know and what you’re excited to learn.</p><div class="keywords">CV · Motivation letter · References</div></article>
+          <article class="project"><div class="project-top"><span>04 / Moving abroad</span><span class="project-icon">↗</span></div><h3>Get ready for your new chapter</h3><p>Moving countries can feel like a lot to figure out, so take it one step at a time. Learn about visa or residence procedures, housing, insurance, salary or stipend, living costs and university onboarding. The details vary by country and institution, and it’s okay to ask questions along the way.</p><div class="keywords">Relocation · Budget · Research culture</div></article>
+        </div>
+        <div class="about-note" style="margin-top:22px"><div class="eyebrow">A note on this guide</div><div class="big">There is no single route into a PhD.</div><p>Wherever you’re starting from, your path is worth exploring. Your university is one part of your story, alongside your curiosity, skills, experiences and the projects that excite you. I’m sharing what I learn as I go, including the questions I’ve had myself. I hope these notes make the process feel a little more approachable; requirements and experiences can differ between countries and institutions.</p></div>
+      </div>
+    </section>
+    <section class="contact" id="contact"><div class="container contact-inner"><div><div class="eyebrow">Let’s connect</div><h2>Have a question or just want to say hello?</h2><p>If you’re exploring research, thinking about a PhD abroad, or simply curious about my work, I’d be glad to hear from you. You’re welcome to reach out, whatever your background or where you are in your journey. Researchers and potential collaborators are very welcome too.</p><div class="actions" style="margin-top:18px"><a href="https://www.linkedin.com/in/anugrah-chettintavida/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">Connect on LinkedIn ↗</a><a href="https://orcid.org/0009-0008-0415-007X" target="_blank" rel="noopener noreferrer" aria-label="ORCID profile">View my ORCID ↗</a></div></div><a class="btn" href="mailto:anugrahmadappally@gmail.com" id="emailButton">Send me a note <span aria-hidden="true">↗</span></a></div></section>
+  </main>
+  <footer><div class="container footer-inner"><span>© <span id="year"></span> Anugrah Chettinavida · Research & PhD abroad</span><span class="small-note">A personal perspective on research, applications and life abroad—not a one-size-fits-all formula.</span></div></footer>
+</div>
+<script>
+const menuToggle = document.getElementById('menuToggle');
+const navlinks = document.getElementById('navlinks');
+menuToggle.addEventListener('click', () => {
+  const open = navlinks.classList.toggle('open');
+  menuToggle.setAttribute('aria-expanded', String(open));
+});
+navlinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+  navlinks.classList.remove('open');
+  menuToggle.setAttribute('aria-expanded', 'false');
+}));
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
